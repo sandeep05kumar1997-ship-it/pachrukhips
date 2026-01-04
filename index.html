@@ -16,7 +16,8 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding-bottom: 80px;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Navbar */
@@ -108,11 +109,16 @@
             opacity: 0.95;
         }
 
+        /* Main Content */
+        .main-content {
+            flex: 1;
+        }
+
         /* Container */
         .container {
             max-width: 800px;
             margin: 2rem auto;
-            padding: 0 1rem;
+            padding: 0 1rem 3rem 1rem;
         }
 
         /* Form Card */
@@ -233,51 +239,59 @@
             transform: none;
         }
 
-        /* Alert Messages */
+        /* Alert Messages - Fixed positioning */
         .alert {
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 20px 30px;
+            border-radius: 12px;
             display: none;
-            animation: slideDown 0.3s ease;
+            animation: slideDown 0.5s ease;
+            z-index: 2000;
+            min-width: 300px;
+            max-width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            font-size: 1rem;
+            font-weight: 500;
         }
 
         @keyframes slideDown {
             from {
                 opacity: 0;
-                transform: translateY(-10px);
+                transform: translate(-50%, -20px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translate(-50%, 0);
             }
         }
 
         .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: #28a745;
+            color: white;
+            border: 2px solid #1e7e34;
         }
 
         .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: #dc3545;
+            color: white;
+            border: 2px solid #bd2130;
         }
 
         .alert i {
-            margin-right: 10px;
+            margin-right: 12px;
+            font-size: 1.2rem;
         }
 
-        /* Footer */
+        /* Footer - Always at bottom */
         .footer {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
             text-align: center;
             padding: 2rem 1rem;
-            margin-top: 4rem;
-            position: fixed;
-            bottom: 0;
+            margin-top: auto;
             width: 100%;
         }
 
@@ -354,12 +368,10 @@
                 font-size: 1.5rem;
             }
 
-            .footer {
-                position: relative;
-            }
-
-            body {
-                padding-bottom: 0;
+            .alert {
+                top: 80px;
+                font-size: 0.9rem;
+                padding: 15px 20px;
             }
         }
 
@@ -383,6 +395,10 @@
 
             .form-card {
                 padding: 1.5rem 1rem;
+            }
+
+            .alert {
+                min-width: auto;
             }
         }
     </style>
@@ -409,68 +425,71 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <h2>🚔 ऑनलाइन शिकायत पोर्टल</h2>
-        <p>आपकी सुरक्षा, हमारी प्राथमिकता | Your Safety, Our Priority</p>
-    </section>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <h2>🚔 ऑनलाइन शिकायत पोर्टल</h2>
+            <p>आपकी सुरक्षा, हमारी प्राथमिकता | Your Safety, Our Priority</p>
+        </section>
 
-    <!-- Main Container -->
-    <div class="container" id="complaint">
-        <div class="form-card">
-            <div class="form-header">
-                <h3>शिकायत दर्ज करें</h3>
-                <p>कृपया अपनी शिकायत का विवरण सावधानीपूर्वक भरें</p>
-            </div>
+        <!-- Alert Messages -->
+        <div id="alertSuccess" class="alert alert-success">
+            <i class="fas fa-check-circle"></i>
+            <span id="successMessage"></span>
+        </div>
+        <div id="alertError" class="alert alert-error">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="errorMessage"></span>
+        </div>
 
-            <!-- Alert Messages -->
-            <div id="alertSuccess" class="alert alert-success">
-                <i class="fas fa-check-circle"></i>
-                <span id="successMessage"></span>
-            </div>
-            <div id="alertError" class="alert alert-error">
-                <i class="fas fa-exclamation-circle"></i>
-                <span id="errorMessage"></span>
-            </div>
-
-            <!-- Complaint Form -->
-            <form id="complaintForm">
-                <div class="form-group">
-                    <label for="name">पूरा नाम <span class="required">*</span></label>
-                    <input type="text" id="name" name="name" placeholder="अपना पूरा नाम दर्ज करें" required>
+        <!-- Container -->
+        <div class="container" id="complaint">
+            <div class="form-card">
+                <div class="form-header">
+                    <h3>शिकायत दर्ज करें</h3>
+                    <p>कृपया अपनी शिकायत का विवरण सावधानीपूर्वक भरें</p>
                 </div>
 
-                <div class="form-group">
-                    <label for="mobile">मोबाइल नंबर <span class="required">*</span></label>
-                    <div class="input-icon">
-                        <input type="tel" id="mobile" name="mobile" placeholder="10 अंकों का मोबाइल नंबर" 
-                               pattern="[0-9]{10}" maxlength="10" required>
-                        <i class="fas fa-phone"></i>
+                <!-- Complaint Form -->
+                <form id="complaintForm">
+                    <div class="form-group">
+                        <label for="name">पूरा नाम <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" placeholder="अपना पूरा नाम दर्ज करें" required>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="email">ईमेल पता <span class="required">*</span></label>
-                    <div class="input-icon">
-                        <input type="email" id="email" name="email" placeholder="example@email.com" required>
-                        <i class="fas fa-envelope"></i>
+                    <div class="form-group">
+                        <label for="mobile">मोबाइल नंबर <span class="required">*</span></label>
+                        <div class="input-icon">
+                            <input type="tel" id="mobile" name="mobile" placeholder="10 अंकों का मोबाइल नंबर" 
+                                   pattern="[0-9]{10}" maxlength="10" required>
+                            <i class="fas fa-phone"></i>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="address">पता <span class="required">*</span></label>
-                    <textarea id="address" name="address" placeholder="अपना पूरा पता दर्ज करें (गांव/शहर, जिला, राज्य)" required></textarea>
-                </div>
+                    <div class="form-group">
+                        <label for="email">ईमेल पता <span class="required">*</span></label>
+                        <div class="input-icon">
+                            <input type="email" id="email" name="email" placeholder="example@email.com" required>
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="complaint">शिकायत का विवरण <span class="required">*</span></label>
-                    <textarea id="complaint" name="complaint" placeholder="कृपया अपनी शिकायत का पूरा विवरण यहां लिखें..." required></textarea>
-                </div>
+                    <div class="form-group">
+                        <label for="address">पता <span class="required">*</span></label>
+                        <textarea id="address" name="address" placeholder="अपना पूरा पता दर्ज करें (गांव/शहर, जिला, राज्य)" required></textarea>
+                    </div>
 
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    <i class="fas fa-paper-plane"></i> शिकायत दर्ज करें
-                </button>
-            </form>
+                    <div class="form-group">
+                        <label for="complaint">शिकायत का विवरण <span class="required">*</span></label>
+                        <textarea id="complaint" name="complaint" placeholder="कृपया अपनी शिकायत का पूरा विवरण यहां लिखें..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> शिकायत दर्ज करें
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -509,7 +528,11 @@
             hideAlerts();
             successMessage.textContent = message;
             alertSuccess.style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                alertSuccess.style.display = 'none';
+            }, 5000);
         }
 
         // Show error message
@@ -517,7 +540,11 @@
             hideAlerts();
             errorMessage.textContent = message;
             alertError.style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                alertError.style.display = 'none';
+            }, 5000);
         }
 
         // Form submission
@@ -545,6 +572,9 @@
             submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> भेजा जा रहा है...<span class="spinner"></span>';
 
             try {
+                console.log('Sending complaint to:', `${API_BASE_URL}/api/complaints`);
+                console.log('Form data:', formData);
+
                 const response = await fetch(`${API_BASE_URL}/api/complaints`, {
                     method: 'POST',
                     headers: {
@@ -553,17 +583,19 @@
                     body: JSON.stringify(formData)
                 });
 
+                console.log('Response status:', response.status);
                 const data = await response.json();
+                console.log('Response data:', data);
 
                 if (response.ok && data.success) {
-                    showSuccess('✅ आपकी शिकायत सफलतापूर्वक दर्ज कर ली गई है! जल्द ही आपसे संपर्क किया जाएगा।');
+                    showSuccess('✅ आपकी शिकायत सफलतापूर्वक दर्ज कर ली गई है! शिकायत संख्या: ' + data.data._id.substring(0, 8).toUpperCase());
                     form.reset();
                 } else {
                     showError(data.message || 'शिकायत दर्ज करने में त्रुटि हुई। कृपया पुनः प्रयास करें।');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                showError('सर्वर से कनेक्ट नहीं हो पा रहा है। कृपया अपना इंटरनेट कनेक्शन जांचें और पुनः प्रयास करें।');
+                showError('❌ सर्वर से कनेक्ट नहीं हो पा रहा है। कृपया अपना इंटरनेट कनेक्शन जांचें और पुनः प्रयास करें।');
             } finally {
                 // Re-enable button
                 submitBtn.disabled = false;
@@ -585,6 +617,15 @@
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
+        });
+
+        // Close alert on click
+        alertSuccess.addEventListener('click', () => {
+            alertSuccess.style.display = 'none';
+        });
+
+        alertError.addEventListener('click', () => {
+            alertError.style.display = 'none';
         });
     </script>
 </body>
